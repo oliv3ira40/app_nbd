@@ -1,0 +1,131 @@
+.height-auto {
+    height: auto !important;
+}
+
+.font-bold {
+    font-weight: bold !important;
+}
+
+.txt-trans-initial {
+    text-transform: initial !important;
+}
+.txt-trans-upper {
+    text-transform: uppercase !important;
+}
+
+
+/* Multiple Select */
+.ms-container {
+    width: auto !important;
+}
+
+.label, .jvectormap-tip {
+    padding: 5px 5px 5px !important;
+}
+
+.acordion-called {
+    padding: 10px 15px !important;
+}
+
+.switchery {
+    margin-right: 10px;
+    margin-top: 5px !important;
+}
+
+.jq-toast-wrap .jq-toast-single.jq-icon-error {
+    font-size: 12px;
+}
+
+
+.pagination {
+    display: inline-block;
+    padding-left: 0;
+    margin: 20px 0 0px 0;
+    border-radius: 4px;
+}
+
+.pagination > .disabled > a, .pagination > .disabled > a:focus, .pagination > .disabled > a:hover, .pagination > .disabled > span, .pagination > .disabled > span:focus, .pagination > .disabled > span:hover {
+    border-color: #dedede;
+    color: #777;
+}
+.pagination > li > a, .pagination > li > span {
+    border-color: #dedede;
+    border-radius: 0 !important;
+    color: #337ab7;
+}
+
+.pagination > li.active > a, .pagination > li.active > span {
+    background: #337ab7;
+    border-color: #337ab7;
+}
+.pagination > li.active > a:hover, .pagination > li.active > a:focus, .pagination > li.active > a:active, .pagination > li.active > span:hover, .pagination > li.active > span:focus, .pagination > li.active > span:active {
+    background: #337ab7;
+    border-color: #337ab7;
+}
+
+
+.my-btn
+{
+    padding: 2px 5px !important;
+    margin: 2px 0 !important;
+}
+
+
+.header-title
+{
+    border-left: solid black 2px;
+}
+
+@media (min-width: 320px) and (max-width: 374px) {
+    .header-auth img { width: 122px !important; }
+    .header-auth h4 { font-size: 17px !important; }
+
+    .header-title { margin-top: -6px; }
+
+    .auth-form { width: 100% !important; }
+}
+
+@media (min-width: 375px) and (max-width: 424px) {
+    .header-auth img { width: 152px !important; }
+    .header-auth h4 { font-size: 20px !important; }
+
+    .header-title { margin-top: -2px; }
+
+    .auth-form { width: 100% !important; }
+}
+
+@media (min-width: 425px) and (max-width: 767px) {
+    .header-auth img { width: 172px !important; }
+    .header-auth h4 { font-size: 22px !important; }
+
+    .header-title { margin-top: 2px; }
+
+    .auth-form { width: 100% !important; }
+}
+@media (min-width: 768px) {
+    .header-auth img { width: 172px !important; }
+    .header-auth h4 { font-size: 22px !important; }
+
+    .header-title { margin-top: 2px; }
+}
+
+
+/* multiple select */
+.ms-container .ms-selectable li.ms-hover, .ms-container .ms-selection li.ms-hover {
+    cursor: pointer;
+    color: #fff;
+    text-decoration: none;
+    background-color: #08c !important;
+}
+
+/* checkbox Switches */
+.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary, .bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-primary {
+    color: #fff;
+    background: #08c !important;
+}
+
+/* Espaco menu lateral */
+.fixed-sidebar-left .side-nav > li > a {
+    color: #212121;
+    padding: 7px 10px;
+}
