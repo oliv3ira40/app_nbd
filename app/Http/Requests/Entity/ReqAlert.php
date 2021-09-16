@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Peoples\Professional;
-
-use App\Models\Admin\User;
+namespace App\Http\Requests\Entity;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateReq extends FormRequest
+class ReqAlert extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +24,7 @@ class UpdateReq extends FormRequest
     public function rules()
     {
         return [
-            'company_name' => 'bail|required|max:400',
+            'delete_confirm' => 'required',
         ];
     }
 }

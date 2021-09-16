@@ -170,6 +170,9 @@ Route::group(['middleware' => 'VerifyUserPermissions'], function(){
 
     // Entity
         Route::get('/registrados-na-nbd', 'Entities\EntityController@list')->name('adm.entity.list');
+        
+        Route::get('/entidade/alerta/{id}', 'Entities\EntityController@alert')->name('adm.entity.alert');
+        Route::post('/entidade/delete', 'Entities\EntityController@delete')->name('adm.entity.delete');
     // Entity
 
     Route::get('/enviar-convite-de-cadastro', 'Admin\AdminController@sendRegistrationInvitation')->name('adm.send_registration_invitation');

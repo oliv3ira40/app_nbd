@@ -17,21 +17,20 @@ use App\Models\Admin\User;
 use App\Models\Entities\Entity;
 use App\Models\Entities\TypeOfEntity;
 use App\Models\Entities\UserHasEntity;
+use App\Models\Sales\Sale;
 use Carbon\Carbon;
 
-class ProfessionalController extends Controller
-{
-    public function __construct()
-    {
+class ProfessionalController extends Controller {
+    public function __construct() {
         $this->middleware('auth');
     }
+
 
 
     public function list() {
         $type_of_entity = TypeOfEntity::where('tag', 'professional')->first();
         $entity = Entity::where('type_of_entity_id', $type_of_entity->id)->orderBy('created_at', 'desc')->get();
         $data['professionals_users'] = $entity;
-        // dd($entity->first()->UserHasEntity);
 
         return view('peoples.professionals.list', compact('data'));
     }
@@ -39,16 +38,12 @@ class ProfessionalController extends Controller
     public function edit($id) {
         $data['professional'] = Entity::find($id);
         $data['user_has_entity'] = $data['professional']->UserHasEntity->count();
-        $data['sales'] = $data['professional']->Sales->count();
         $data['specifier_sales'] = $data['professional']->SpecifierSales->count();
-
-        // dd($data['professional']);
 
         return view('peoples.professionals.edit', compact('data'));
     }
     public function update(UpdateReq $req) {
         $data = $req->all();
-        // dd($data);
         $entity = Entity::find($data['id']);
         
         $entity->update($data);
@@ -79,7 +74,6 @@ class ProfessionalController extends Controller
         
         return view('peoples.professionals.index', compact('data'));
     }
-
     public function finalizeRegistration($id) {
         $data['user'] = User::find($id);
 
@@ -114,60 +108,62 @@ class ProfessionalController extends Controller
         return view('peoples.professionals.shopping_list', compact('data'));
     }
 
+    //
     public function profile() {
-        $data['user'] = \Auth::user();
-        $data['professional'] = $data['user']->UserHasEntity->Entity;
-        // $data['office_has_professional'] = $data['professional']->OfficeHasProfessional;
+        // $data['user'] = \Auth::user();
+        // $data['professional'] = $data['user']->UserHasEntity->Entity;
+        // // $data['office_has_professional'] = $data['professional']->OfficeHasProfessional;
 
-        return view('peoples.professionals.profile', compact('data'));
+        // return view('peoples.professionals.profile', compact('data'));
     }
     public function updateProfile(updateProfile $req) {
-        $data = $req->all();
-        $user = \Auth::user();
-        $professional = $user->UserHasEntity->Entity;
+        // $data = $req->all();
+        // $user = \Auth::user();
+        // $professional = $user->UserHasEntity->Entity;
 
-        if ($data['user']['password'] == null) {
-            unset($data['user']['password']);
-        } else {
-            $data['user']['password'] = bcrypt($data['user']['password']);
-        }
+        // if ($data['user']['password'] == null) {
+        //     unset($data['user']['password']);
+        // } else {
+        //     $data['user']['password'] = bcrypt($data['user']['password']);
+        // }
 
-        $user->update($data['user']);
-        $professional->update($data['professional']);
+        // $user->update($data['user']);
+        // $professional->update($data['professional']);
 
-        session()->flash('notification', 'success:Perfil atualizado');
-        return redirect()->route('adm.professional.profile');
+        // session()->flash('notification', 'success:Perfil atualizado');
+        // return redirect()->route('adm.professional.profile');
     }
 
     public function alertRemoveLink(Request $req) {
-        $data = $req->all();
-        $data['office_has_professional'] = OfficeHasProfessional::where([
-            ['office_id', '=', $data['office_id']],
-            ['professional_id', '=', $data['professional_id']],
-        ])->first();
-        if ($data['office_has_professional'] == null) {
-            session()->flash('notification', 'info:Vínculo profissional não encontrado');
-            return redirect()->route('adm.professional.profile');
-        }
+        // $data = $req->all();
+        // $data['office_has_professional'] = OfficeHasProfessional::where([
+        //     ['office_id', '=', $data['office_id']],
+        //     ['professional_id', '=', $data['professional_id']],
+        // ])->first();
+        // if ($data['office_has_professional'] == null) {
+        //     session()->flash('notification', 'info:Vínculo profissional não encontrado');
+        //     return redirect()->route('adm.professional.profile');
+        // }
         
-        $data['office'] = $data['office_has_professional']->Office;
+        // $data['office'] = $data['office_has_professional']->Office;
     
-        return view('peoples.professionals.alert_remove_link', compact('data'));
+        // return view('peoples.professionals.alert_remove_link', compact('data'));
     }
     public function RemoveLink(Request $req) {
-        $data = $req->all();
-        $data['office_has_professional'] = OfficeHasProfessional::where([
-            ['office_id', '=', $data['office_id']],
-            ['professional_id', '=', $data['professional_id']],
-        ])->first();
-        if ($data['office_has_professional'] == null) {
-            session()->flash('notification', 'info:Vínculo profissional não encontrado');
-            return redirect()->route('adm.professional.profile');
-        }
+        // $data = $req->all();
+        // $data['office_has_professional'] = OfficeHasProfessional::where([
+        //     ['office_id', '=', $data['office_id']],
+        //     ['professional_id', '=', $data['professional_id']],
+        // ])->first();
+        // if ($data['office_has_professional'] == null) {
+        //     session()->flash('notification', 'info:Vínculo profissional não encontrado');
+        //     return redirect()->route('adm.professional.profile');
+        // }
         
-        $data['office_has_professional']->delete();
+        // $data['office_has_professional']->delete();
 
-        session()->flash('notification', 'success:Vínculo profissional removido!');
-        return redirect()->route('adm.professional.profile');
+        // session()->flash('notification', 'success:Vínculo profissional removido!');
+        // return redirect()->route('adm.professional.profile');
     }
+    //
 }

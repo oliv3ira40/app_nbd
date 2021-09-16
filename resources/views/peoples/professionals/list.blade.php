@@ -32,19 +32,10 @@
                                             <th>DT de fundação</th>
                                             <th>Cnpj</th>
                                             <th>DT de criação</th>
+                                            <th>Vendas</th>
                                             <th>Ações</th>
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Id</th>
-                                            <th>Nome</th>
-                                            <th>DT de fundação</th>
-                                            <th>Cnpj</th>
-                                            <th>DT de criação</th>
-                                            <th>Ações</th>
-                                        </tr>
-                                    </tfoot>
                                     <tbody>
                                         @foreach ($data['professionals_users'] as $professional)
                                             <tr>
@@ -72,14 +63,15 @@
                                                     {{ ($professional->created_at != null) ? $professional->created_at->format('d/m/Y H:i') : '---' }}
                                                 </td>
                                                 <td>
-                                                    <a href="{{ route('adm.professionals.edit', $professional->id) }}"
-                                                        class="my-btn btn btn-warning">
+                                                    {{ $professional->SpecifierSales->count() }}
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('adm.professionals.edit', $professional->id) }}" class="my-btn btn btn-warning">
                                                         Editar
                                                     </a>
-                                                    {{-- <a href="{{ route('adm.users.alert', $professional->id) }}"
-                                                        class="my-btn btn btn-danger">
+                                                    <a href="{{ route('adm.entity.alert', $professional->id) }}" class="my-btn btn btn-danger">
                                                         Excluir
-                                                    </a> --}}
+                                                    </a>
                                                 </td>
                                             </tr>
                                         @endforeach
