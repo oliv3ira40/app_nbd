@@ -16,10 +16,7 @@
                         <div class="form-wrap row">
                             {!! Form::model($data['professional'], ['url'=>route('adm.professionals.update')]) !!}
                                 {!! Form::hidden('id', $data['professional']->id) !!}
-                                <div class="form-group col-md-12"> 
-                                    <h5 class="col-md-12 txt-dark weight-500 txt-trans-initial">
-                                        Dados Pessoais
-                                    </h5>
+                                <div class="form-group col-md-12">
                                     <div class="col-md-8">
                                         <label for="company_name" class="control-label uppercase-font font-14 mb-10 text-left">
                                             Nome

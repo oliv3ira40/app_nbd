@@ -16,7 +16,7 @@
         <div class="panel panel-default card-view">
             <div class="panel-heading">
                 <div class="pull-left">
-                    <h6 class="panel-title txt-dark">Lista de Lojas</h6>
+                    <h6 class="panel-title txt-dark txt-trans-initial">Lista de Lojas</h6>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -29,52 +29,50 @@
                                     <tr>
                                         <th>Id</th>
                                         <th>Nome</th>
-                                        <th>E-mail</th>
+                                        <th>DT de fundação</th>
                                         <th>Cnpj</th>
-                                        <!--<th>Ações</th>-->
+                                        <th>DT de criação</th>
+                                        <th>Vendas</th>
+                                        <th>Ações</th>
                                     </tr>
                                 </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Nome</th>
-                                        <th>E-mail</th>
-                                        <th>Cnpj</th>
-                                        <!--<th>Ações</th>-->
-                                    </tr>
-                                </tfoot>
                                 <tbody>
-                                    @foreach ($data['shopkeepers_users'] as $user)
+                                    @foreach ($data['shopkeepers_users'] as $shopkeeper)
                                         <tr>
                                             <td>
-                                                {{ $user->id }}
+                                                {{ $shopkeeper->id }}
                                             </td>
                                             <td>
-                                                {{ $user->UserHasEntity->Entity->name }}
+                                                {{ $shopkeeper->company_name }}
                                             </td>
                                             <td>
-                                                {{ $user->email }}
+                                                {{ ($shopkeeper->foundation_date) ? date('d-m-Y', strtotime($shopkeeper->foundation_date)) : '---' }}
                                             </td>
                                             <td>
-                                                {{ $user->UserHasEntity->Entity->cnpj ?? '---' }}
+                                                @if ($shopkeeper->cnpj == null)
+                                                    <span class="txt-danger weight-500">
+                                                        Cadastro incompleto
+                                                    </span>
+                                                    @else
+                                                    <span class="txt-primary weight-500">
+                                                        {{ $shopkeeper->cnpj }}
+                                                    </span>
+                                                @endif
                                             </td>
-                                            <!--<td>-->
-                                            <!--    {{ ($user->created_at != null) ? $user->created_at->format('d/m/Y H:i') : '---' }}-->
-                                            <!--</td>-->
-                                            <!--<td>-->
-                                            <!--    @if ($user->UserHasEntity->Entity == null)-->
-                                            <!--        <span class="txt-danger weight-500">-->
-                                            <!--            Cadastro incompleto-->
-                                            <!--        </span>-->
-                                            <!--    @else-->
-                                            <!--        <a href="{{ route('adm.shopkeepers.edit', $user->id) }}" class="my-btn btn btn-warning">-->
-                                            <!--            Editar-->
-                                            <!--        </a>-->
-                                            <!--        <a href="{{ route('adm.users.alert', $user->id) }}" class="my-btn btn btn-danger">-->
-                                            <!--            Bloquear-->
-                                            <!--        </a>-->
-                                            <!--    @endif-->
-                                            <!--</td>-->
+                                            <td>
+                                                {{ ($shopkeeper->created_at != null) ? $shopkeeper->created_at->format('d/m/Y H:i') : '---' }}
+                                            </td>
+                                            <td>
+                                                {{ $shopkeeper->Sales->count() }}
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('adm.shopkeepers.edit', $shopkeeper->id) }}" class="my-btn btn btn-warning">
+                                                    Editar
+                                                </a>
+                                                <a href="{{ route('adm.entity.alert', $shopkeeper->id) }}" class="my-btn btn btn-danger">
+                                                    Excluir
+                                                </a>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

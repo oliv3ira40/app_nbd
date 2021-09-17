@@ -16,6 +16,7 @@ use App\Helpers\Peoples\HelpShopkeeper;
 use App\Models\Admin\User;
 use App\Models\Sales\Sale;
 use App\Models\Entities\Entity;
+use App\Models\Entities\TypeOfEntity;
 
 
 class ShopkeeperController extends Controller
@@ -26,30 +27,27 @@ class ShopkeeperController extends Controller
 
 
     public function list() {
-        $data['shopkeepers_users'] = HelpAdmin::UsersShopkeeper()->where('group_for_entity_id', 1);
-        
+        $type_of_entity = TypeOfEntity::where('tag', 'shopkeeper')->first();
+        $entity = Entity::where('type_of_entity_id', $type_of_entity->id)->orderBy('created_at', 'desc')->get();
+        $data['shopkeepers_users'] = $entity;
+
         return view('peoples.shopkeepers.list', compact('data'));
     }
 
     public function edit($id) {
-        $data['user'] = User::find($id);
-        $data['shopkeeper'] = $data['user']->Shopkeeper;
-        $data['shopkeeper_addres'] = $data['shopkeeper']->ShopkeeperAddres;
+        $data['shopkeeper'] = Entity::find($id);
+        $data['user_has_entity'] = $data['shopkeeper']->UserHasEntity->count();
+        $data['sales'] = $data['shopkeeper']->Sales->count();
 
         return view('peoples.shopkeepers.edit', compact('data'));
     }
     public function update(UpdateReq $req) {
         $data = $req->all();
-        $user = User::find($data['id']);
-        $shopkeeper = $user->Shopkeeper;
-        $shopkeeper_addres = $shopkeeper->ShopkeeperAddres;
-
-        $user->update($data['user']);
-        $shopkeeper->update($data['shopkeeper']);
-        $shopkeeper_addres->update($data['shopkeeper_addres']);
-
-        session()->flash('notification', 'success:Perfil de Loja atualizado!');
-        return redirect()->route('adm.shopkeepers.edit', $user->id);
+        $entity = Entity::find($data['id']);
+        
+        $entity->update($data);
+        session()->flash('notification', 'success:Loja atualizada!');
+        return redirect()->route('adm.shopkeepers.edit', $entity->id);
     }
 
     public function index(Request $req) {

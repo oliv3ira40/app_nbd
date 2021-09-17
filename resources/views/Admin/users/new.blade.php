@@ -117,6 +117,7 @@
                                             @endif
                                         </label>
                                         <select id="user[group_id]" name="user[group_id]" class="form-control">
+                                            <option value="null">Selecione um grupo...</option>
                                             @foreach ($groups as $group)
                                                 <option value="{{ $group->id }}">{{ $group->name }}</option>
                                             @endforeach

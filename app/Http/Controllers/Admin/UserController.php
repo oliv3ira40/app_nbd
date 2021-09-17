@@ -19,15 +19,13 @@ use Illuminate\Auth\Notifications\ResetPassword;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth');
     }
 
 
 
-    public function list()
-    {
+    public function list() {
         $developer_group = Group::where('tag', 'developer')->first();
         $users = User::select('id', 'first_name', 'last_name', 'email', 'created_at', 'deleted_at', 'group_id')
             ->orderBy('created_at', 'desc')->withTrashed()->get();
@@ -35,9 +33,9 @@ class UserController extends Controller
         return view('Admin.users.list', compact('users'));
     }
 
-    public function new()
-    {
-        $groups = Group::orderBy('created_at', 'desc')->get();
+    public function new() {
+        $groups_entities = TypeOfEntity::pluck('tag')->toArray();
+        $groups = Group::whereIn('tag', $groups_entities)->get();
         $developer_group = Group::where('tag', 'developer')->first();
         
         if (!HelpAdmin::IsUserDeveloper()) {
@@ -46,8 +44,7 @@ class UserController extends Controller
 
         return view('Admin.users.new', compact('groups'));
     }
-    public function save(ReqSave $req)
-    {
+    public function save(ReqSave $req) {
         $data = $req->all();
         $group = Group::find($data['user']['group_id']);
         $data['user']['first_name'] = $data['entity']['name'];
@@ -72,14 +69,12 @@ class UserController extends Controller
         }
     }
 
-    public function edit($id)
-    {
+    public function edit($id) {
         $developer_group = Group::where('tag', 'developer')->first();
         $auth_user = \Auth::User();
         
         $user = User::find($id);
-        if ($user == null) 
-        {
+        if ($user == null) {
             session()->flash('notification', 'error:Este usuário não está mais disponível');
             return redirect()->route('adm.index');
         }
@@ -90,25 +85,22 @@ class UserController extends Controller
         }
 
         if ($auth_user->id != $user->id
-        AND !in_array('adm.users.edit_other_users', HelpAdmin::permissionsUser($auth_user)))
-        {
+        AND !in_array('adm.users.edit_other_users', HelpAdmin::permissionsUser($auth_user))) {
             return redirect()->route('adm.withoutPermission');
         }
 
-        $groups = Group::orderBy('created_at', 'desc')->get();
-        if (!HelpAdmin::IsUserDeveloper())
-        {
+        $groups_entities = TypeOfEntity::pluck('tag')->toArray();
+        $groups = Group::whereIn('tag', $groups_entities)->get();
+        if (!HelpAdmin::IsUserDeveloper()) {
             $groups = $groups->where('id', '!=', $developer_group->id);
         }
 
         return view('Admin.users.edit', compact('user', 'groups'));
     }
-    public function update(updateUser $req)
-    {
+    public function update(updateUser $req) {
         $data = $req->all();
         $user = User::find($data['id']);
-        if ($data['password'] != null)
-        {
+        if ($data['password'] != null) {
             $data['password'] = bcrypt($data['password']);
         } else {
             unset($data['password']);
@@ -130,14 +122,12 @@ class UserController extends Controller
         }
     }
 
-    public function alert($id)
-    {
+    public function alert($id) {
         $user = User::find($id);
 
         return view('Admin.users.alert', compact('user'));
     }
-    public function delete(Request $req)
-    {
+    public function delete(Request $req) {
         $data = $req->all();
         User::find($data['id'])->delete();
 
@@ -145,8 +135,7 @@ class UserController extends Controller
         return redirect()->route('adm.users.list');
     }
 
-    public function toRestore($id)
-    {
+    public function toRestore($id) {
         $user = User::where('id', $id)->withTrashed()->first();
         $user->restore();
 

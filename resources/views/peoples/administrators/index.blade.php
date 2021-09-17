@@ -17,7 +17,7 @@
                                         <div class="col-xs-8 text-center pl-0 pr-0 data-wrap-left">
                                             <span class="txt-dark block counter">
                                                 <span class="counter-anim">
-                                                    {{ $data['users']->count() }}
+                                                    {{ $data['users'] }}
                                                 </span>
                                             </span>
                                             <span class="weight-500 uppercase-font block font-13">Usuários</span>
@@ -114,23 +114,34 @@
                             <div class="table-responsive">
                                 <table class="table table-hover mb-0">
                                     <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Profissional / Escritório</th>
-                                        <th>Data da compra / período</th>
-                                        <th>Data de registro</th>
-                                        <th>Registrada por</th>
-                                    </tr>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Registrado por</th>
+                                            <th>Loja</th>
+                                            <th>Direcionada</th>
+                                            <th>DT de compra</th>
+                                            <th>DT de registro</th>
+                                            {{-- <th>Ações</th> --}}
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                        @php $count = 0; @endphp
-                                        @foreach ($data['sales'] as $sale)
+                                        @foreach ($data['sales']->take(10) as $sale)
                                             <tr>
                                                 <td>
                                                     {{ $sale->id }}
                                                 </td>
                                                 <td>
+                                                    {{ HelpAdmin::completName($sale->User) }}
+                                                </td>
+                                                <td>
+                                                    {{ $sale->Entity->company_name }}
+                                                </td>
+                                                <td>
                                                     {{ $sale->Specifier->company_name }}
+                                                    -
+                                                    <span class="font-bold" style="color: {{ HelpAdmin::getColorGroup($sale->Specifier->TypeOfEntity->tag) }}">
+                                                        {{ $sale->Specifier->TypeOfEntity->name }}
+                                                    </span>
                                                 </td>
                                                 <td>
                                                     @if ($sale->purchase_date != null)
@@ -144,14 +155,7 @@
                                                 <td>
                                                     {{ $sale->created_at->format('d/m/Y H:i') }}
                                                 </td>
-                                                <td>
-                                                    {{ HelpAdmin::completName($sale->User) }}
-                                                </td>
                                             </tr>
-                                            @php
-                                                $count++;
-                                                if ($count == 10) break;
-                                            @endphp
                                         @endforeach
                                     </tbody>
                                 </table>

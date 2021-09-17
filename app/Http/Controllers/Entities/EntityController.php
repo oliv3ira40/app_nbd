@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Admin\User;
 use App\Models\Admin\Group;
+use App\Models\Sales\Sale;
 use App\Models\Entities\Entity;
 use App\Models\Entities\TypeOfEntity;
 
@@ -48,9 +49,8 @@ class EntityController extends Controller
     public function delete(ReqAlert $req) {
         $data = $req->all();
         $data['entity'] = Entity::find($data['id']);
-        $data['sales'] = $data['entity']->SpecifierSales;
         $data['type_entity'] = $data['entity']->TypeOfEntity;
-        
+
         $user_has_entity = $data['entity']->UserHasEntity;
         if ($user_has_entity->count()) {
             $user_has_entity_array = $user_has_entity->pluck('user_id')->toArray();
@@ -60,6 +60,8 @@ class EntityController extends Controller
             $users->update($update_users);
         }
         $data['entity']->delete();
+        $sales = Sale::where('entity_id', $data['entity']->id)
+            ->orWhere('specifier_id', $data['entity']->id)->delete();
 
         session()->flash('notification', 'success:Registro excluído!');
         if ($data['type_entity']->tag == 'shopkeeper') {

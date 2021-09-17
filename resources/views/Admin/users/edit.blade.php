@@ -121,21 +121,9 @@
                                                 </small>
                                             @endif
                                         </label>
-                                        @if (in_array('adm.users.edit_group', HelpAdmin::permissionsUser()))
-                                            <select id="group_id" name="group_id" class="form-control">
-                                                @foreach ($groups as $group)
-                                                    @if ($user->group_id == $group->id)
-                                                        <option selected value="{{ $group->id }}">{{ $group->name }}</option>
-                                                    @else
-                                                        <option value="{{ $group->id }}">{{ $group->name }}</option>
-                                                    @endif
-                                                @endforeach
-                                            </select>
-                                        @else
-                                            <div disabled class="form-control">
-                                                {{ $user->Group->name }}
-                                            </div>
-                                        @endif
+                                        <div disabled class="form-control">
+                                            {{ $user->Group->name }}
+                                        </div>
                                     </div>
                                 </div>
 

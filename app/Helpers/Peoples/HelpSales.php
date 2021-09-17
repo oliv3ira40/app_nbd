@@ -577,4 +577,19 @@
             // }
         }
         //
+
+
+        public static function deleteInvalidSales() {
+            $sales = Sale::orderBy('created_at', 'desc')->get();
+            $count = 0;
+            foreach ($sales as $sale) {
+                if ($sale->User == null OR $sale->Specifier == null OR $sale->Entity == null) {
+                    $sale->delete();
+                    $count++;
+                }
+            }
+            return $count;
+        }
+
+
     }

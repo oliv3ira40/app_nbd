@@ -13,6 +13,8 @@ use App\Models\Peoples\Office;
 use App\Models\Peoples\OfficeHasProfessional;
 use App\Models\Peoples\Professional;
 use App\Models\Entities\ProfessionalLink;
+use App\Models\Entities\Entity;
+use App\Models\Entities\TypeOfEntity;
 use App\Models\Peoples\Address\OfficeAddres;
 
 use App\Http\Requests\Peoples\Office\saveFinalizeRegist;
@@ -27,30 +29,27 @@ class OfficeController extends Controller
 
 
     public function list() {
-        $data['offices_users'] = HelpAdmin::UsersOffice()->where('group_for_entity_id', 1);
-        
+        $type_of_entity = TypeOfEntity::where('tag', 'office')->first();
+        $entity = Entity::where('type_of_entity_id', $type_of_entity->id)->orderBy('created_at', 'desc')->get();
+        $data['offices_users'] = $entity;
+
         return view('peoples.offices.list', compact('data'));
     }
 
     public function edit($id) {
-        $data['user'] = User::find($id);
-        $data['office'] = $data['user']->Office;
-        $data['office_addres'] = $data['office']->OfficeAddres;
+        $data['office'] = Entity::find($id);
+        $data['user_has_entity'] = $data['office']->UserHasEntity->count();
+        $data['sales'] = $data['office']->SpecifierSales->count();
 
         return view('peoples.offices.edit', compact('data'));
     }
     public function update(UpdateReq $req) {
         $data = $req->all();
-        $user = User::find($data['id']);
-        $office = $user->Office;
-        $office_addres = $office->OfficeAddres;
-
-        $user->update($data['user']);
-        $office->update($data['office']);
-        $office_addres->update($data['office_addres']);
-
-        session()->flash('notification', 'success:Perfil do escritório atualizado!');
-        return redirect()->route('adm.offices.edit', $user->id);
+        $entity = Entity::find($data['id']);
+        
+        $entity->update($data);
+        session()->flash('notification', 'success:Escritório atualizado!');
+        return redirect()->route('adm.offices.edit', $entity->id);
     }
 
     public function index(Request $req) {

@@ -23,7 +23,7 @@ class AdministratorController extends Controller
 
     public function index()
     {
-        $data['users'] = User::select('id', 'first_name', 'last_name')->get();
+        $data['users'] = User::all()->count();
         $data['sales'] = Sale::orderBy('created_at', 'desc')->get();
 
         // dd($data);

@@ -28,23 +28,14 @@
                                     <thead>
                                         <tr>
                                             <th>Id</th>
-                                            <th>Registrada</th>
+                                            <th>Registrado por</th>
+                                            <th>Loja</th>
                                             <th>Direcionada</th>
                                             <th>DT de compra</th>
                                             <th>DT de registro</th>
                                             {{-- <th>Ações</th> --}}
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Id</th>
-                                            <th>Registrada</th>
-                                            <th>Direcionada</th>
-                                            <th>DT de compra</th>
-                                            <th>DT de registro</th>
-                                            {{-- <th>Ações</th> --}}
-                                        </tr>
-                                    </tfoot>
                                     <tbody>
                                         @foreach ($data['sales'] as $sale)
                                             <tr>
@@ -55,7 +46,14 @@
                                                     {{ HelpAdmin::completName($sale->User) }}
                                                 </td>
                                                 <td>
+                                                    {{ $sale->Entity->company_name }}
+                                                </td>
+                                                <td>
                                                     {{ $sale->Specifier->company_name }}
+                                                    -
+                                                    <span class="font-bold" style="color: {{ HelpAdmin::getColorGroup($sale->Specifier->TypeOfEntity->tag) }}">
+                                                        {{ $sale->Specifier->TypeOfEntity->name }}
+                                                    </span>
                                                 </td>
                                                 <td>
                                                     @if ($sale->purchase_date != null)

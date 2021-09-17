@@ -27,7 +27,6 @@ class SaleController extends Controller
 
     public function list() {
         $data['sales'] = Sale::orderBy('created_at', 'desc')->get();
-        // dd($data['sales'][0]);
 
         return view('sales.list', compact('data'));
     }

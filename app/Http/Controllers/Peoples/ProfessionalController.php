@@ -47,7 +47,7 @@ class ProfessionalController extends Controller {
         $entity = Entity::find($data['id']);
         
         $entity->update($data);
-        session()->flash('notification', 'success:Perfil profissional atualizado!');
+        session()->flash('notification', 'success:Profissional atualizado!');
         return redirect()->route('adm.professionals.edit', $entity->id);
     }
 

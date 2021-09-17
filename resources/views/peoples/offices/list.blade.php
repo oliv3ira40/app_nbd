@@ -29,52 +29,50 @@
                                     <tr>
                                         <th>Id</th>
                                         <th>Nome</th>
-                                        <th>E-mail</th>
+                                        <th>DT de fundação</th>
                                         <th>Cnpj</th>
-                                        <!--<th>Ações</th>-->
+                                        <th>DT de criação</th>
+                                        <th>Vendas</th>
+                                        <th>Ações</th>
                                     </tr>
                                 </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Nome</th>
-                                        <th>E-mail</th>
-                                        <th>Cnpj</th>
-                                        <!--<th>Ações</th>-->
-                                    </tr>
-                                </tfoot>
                                 <tbody>
-                                    @foreach ($data['offices_users'] as $user)
+                                    @foreach ($data['offices_users'] as $office)
                                         <tr>
                                             <td>
-                                                {{ $user->id }}
+                                                {{ $office->id }}
                                             </td>
                                             <td>
-                                                {{ $user->UserHasEntity->Entity->name }}
+                                                {{ $office->company_name }}
                                             </td>
                                             <td>
-                                                {{ $user->email }}
+                                                {{ ($office->foundation_date) ? date('d-m-Y', strtotime($office->foundation_date)) : '---' }}
                                             </td>
                                             <td>
-                                                {{ $user->UserHasEntity->Entity->cnpj ?? '---' }}
+                                                @if ($office->cnpj == null)
+                                                    <span class="txt-danger weight-500">
+                                                        Cadastro incompleto
+                                                    </span>
+                                                    @else
+                                                    <span class="txt-primary weight-500">
+                                                        {{ $office->cnpj }}
+                                                    </span>
+                                                @endif
                                             </td>
-                                            <!--<td>-->
-                                            <!--    {{ ($user->created_at != null) ? $user->created_at->format('d/m/Y H:i') : '---' }}-->
-                                            <!--</td>-->
-                                            <!--<td>-->
-                                            <!--    @if ($user->UserHasEntity->Entity == null)-->
-                                            <!--        <span class="txt-danger weight-500">-->
-                                            <!--            Cadastro incompleto-->
-                                            <!--        </span>-->
-                                            <!--    @else-->
-                                            <!--        <a href="{{ route('adm.offices.edit', $user->id) }}" class="my-btn btn btn-warning">-->
-                                            <!--            Editar-->
-                                            <!--        </a>-->
-                                            <!--        <a href="{{ route('adm.users.alert', $user->id) }}" class="my-btn btn btn-danger">-->
-                                            <!--            Bloquear-->
-                                            <!--        </a>-->
-                                            <!--    @endif-->
-                                            <!--</td>-->
+                                            <td>
+                                                {{ ($office->created_at != null) ? $office->created_at->format('d/m/Y H:i') : '---' }}
+                                            </td>
+                                            <td>
+                                                {{ $office->SpecifierSales->count() }}
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('adm.offices.edit', $office->id) }}" class="my-btn btn btn-warning">
+                                                    Editar
+                                                </a>
+                                                <a href="{{ route('adm.entity.alert', $office->id) }}" class="my-btn btn btn-danger">
+                                                    Excluir
+                                                </a>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

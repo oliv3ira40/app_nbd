@@ -184,4 +184,8 @@
 
 			return '../storage'.$bar.'app'.$bar.'public'.$bar;
 		}
+		
+		public static function getColorGroup($tag) {
+			return Group::where('tag', $tag)->first()->tag_color;
+		}
 	}
