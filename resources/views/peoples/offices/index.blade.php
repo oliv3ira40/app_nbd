@@ -110,7 +110,7 @@
                                         <div class="row">
                                             <div class="col-xs-9 text-center pl-0 pr-0 data-wrap-left">
                                                 <span class="txt-dark block">
-                                                    <span class="counter-anim font-22">{{ $data['office']->SpecifierSales->count() }}</span>
+                                                    <span class="counter-anim font-22">{{ $data['count_my_shoppings'] }}</span>
                                                 </span>
                                                 <span class="weight-500 uppercase-font block font-15">
                                                     Compras registradas

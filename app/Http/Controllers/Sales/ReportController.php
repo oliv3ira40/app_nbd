@@ -27,6 +27,10 @@ class ReportController extends Controller
 
     public function list() {
         $data['reports'] = Report::orderBy('created_at', 'desc')->get();
+        // if (HelpAdmin::IsUserDeveloper()) {
+        //     $data['ranking_num_sales'] = HelpSales::getRankingNumSales();
+        //     $data['ranking_values'] = HelpSales::getRankingShoppValues();
+        // }
 
         $auth_user = \Auth::User();
         if (HelpAdmin::IsUserShopkeeper()) {

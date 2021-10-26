@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail;
 
 use App\Helpers\HelpAdmin;
 use App\Helpers\HelpMenuAdmin;
+use App\Helpers\Peoples\HelpSales;
 use App\Http\Requests\Admin\ReqSendInvitation;
 
 use App\Models\Admin\User;
@@ -30,9 +31,7 @@ class AdminController extends Controller
 
 
 
-    public function index() {
-        // dd('---');
-        
+    public function index() {   
         if (HelpAdmin::IsUserDeveloper()) {
             $data['user'] = \Auth::user();
             $data['users'] = User::select('id', 'first_name', 'last_name', 'email', 'group_id', 'deleted_at')

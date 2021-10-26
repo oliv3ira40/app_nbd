@@ -63,12 +63,13 @@ class OfficeController extends Controller
         $data['office'] = $data['auth_user']->UserHasEntity->Entity;
         // $data['my_professionals'] = $data['office']->OfficesHasProfessionals;
         $data['my_shoppings'] = $data['office']->SpecifierSales->take(10);
+        $data['count_my_shoppings'] = $data['office']->SpecifierSales->count();
         
-        $data['my_ranking_num_sales'] = HelpSales::getMyRankingNumSales($data['auth_user']->id);
+        $data['my_ranking_num_sales'] = HelpSales::getMyRankingNumSales($data['auth_user']->UserHasEntity->Entity->id);
         $data['my_ranking_num_sales']['approximate_position'] =
             HelpSales::getApproximateRankingPosition($data['my_ranking_num_sales']['position']);
             
-        $data['my_ranking_shopp_values'] = HelpSales::getMyRankingShoppValues($data['auth_user']->id);
+        $data['my_ranking_shopp_values'] = HelpSales::getMyRankingShoppValues($data['auth_user']->UserHasEntity->Entity->id);
         $data['my_ranking_shopp_values']['approximate_position'] =
             HelpSales::getApproximateRankingPosition($data['my_ranking_shopp_values']['position']);
         

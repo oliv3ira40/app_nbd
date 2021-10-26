@@ -18,5 +18,16 @@ $(document).ready(function() {
 			"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
 		}
 	});
-    $('#datable_2').DataTable({ "lengthChange": false});
+	$('#datable_2').DataTable({
+		"ordering": false,
+		"language": {
+			"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
+		}
+	});
+	$('#datable_3').DataTable({
+		"ordering": false,
+		"language": {
+			"url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
+		}
+	});
 } );

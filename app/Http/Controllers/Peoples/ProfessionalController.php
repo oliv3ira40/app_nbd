@@ -55,23 +55,23 @@ class ProfessionalController extends Controller {
         $data['auth_user'] = \Auth::user();
         $data['professional'] = $data['auth_user']->UserHasEntity->Entity;
 
-        // dd($data['auth_user']);
         if ($data['auth_user']->registration_completed == null AND !isset($req->session()->all()['skipped_record'])) {
             // return redirect()->route('adm.finalize_registration');
         }
         
         $data['professional'] = $data['auth_user']->UserHasEntity->Entity;
         $data['my_shoppings'] = $data['professional']->SpecifierSales->take(10);
+        $data['count_my_shoppings'] = $data['professional']->SpecifierSales->count();
         $data['shoppings_by_store'] = HelpProfessional::shoppingsByStore($data['professional']);
-        
-        $data['my_ranking_num_sales'] = HelpSales::getMyRankingNumSales($data['auth_user']->id);
+
+        $data['my_ranking_num_sales'] = HelpSales::getMyRankingNumSales($data['auth_user']->UserHasEntity->Entity->id);
         $data['my_ranking_num_sales']['approximate_position'] = 
             HelpSales::getApproximateRankingPosition($data['my_ranking_num_sales']['position']);
-            
-        $data['my_ranking_shopp_values'] = HelpSales::getMyRankingShoppValues($data['auth_user']->id);
+
+        $data['my_ranking_shopp_values'] = HelpSales::getMyRankingShoppValues($data['auth_user']->UserHasEntity->Entity->id);
         $data['my_ranking_shopp_values']['approximate_position'] = 
             HelpSales::getApproximateRankingPosition($data['my_ranking_shopp_values']['position']);
-        
+
         return view('peoples.professionals.index', compact('data'));
     }
     public function finalizeRegistration($id) {

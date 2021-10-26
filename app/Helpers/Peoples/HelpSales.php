@@ -24,25 +24,23 @@
 
             $ranking_sales = [];
             foreach ($professionals_and_offices as $key => $user) {
-                if (HelpAdmin::IsUserProfessional($user))
-                {
-                    $professional = $user->Professional;
-                    if ($professional != null AND $professional->Sales->count() > 0)
+                if (HelpAdmin::IsUserProfessional($user)) {
+                    $professional = $user->UserHasEntity->Entity;
+                    if ($professional != null AND $professional->SpecifierSales->count() > 0)
                     {
-                        $ranking_sales[$user->id]['shoppings_num'] = $professional->Sales->count();
+                        $ranking_sales[$professional->id]['shoppings_num'] = $professional->SpecifierSales->count();
                     } else
                     {
-                        $ranking_sales[$user->id]['shoppings_num'] = 0;
+                        $ranking_sales[$professional->id]['shoppings_num'] = 0;
                     }
-                } else
-                {
-                    $office = $user->Office;
-                    if ($office != null AND $office->Sales->count() > 0)
+                } else {
+                    $office = $user->UserHasEntity->Entity;
+                    if ($office != null AND $office->SpecifierSales->count() > 0)
                     {
-                        $ranking_sales[$user->id]['shoppings_num'] = $office->Sales->count();
+                        $ranking_sales[$office->id]['shoppings_num'] = $office->SpecifierSales->count();
                     } else
                     {
-                        $ranking_sales[$user->id]['shoppings_num'] = 0;
+                        $ranking_sales[$office->id]['shoppings_num'] = 0;
                     }
                 }
             }
@@ -78,31 +76,29 @@
 
             $ranking_sales = [];
             foreach ($professionals_and_offices as $key => $user) {
-                if (HelpAdmin::IsUserProfessional($user))
-                {
-                    $professional = $user->Professional;
-                    if ($professional != null AND $professional->Sales->count() > 0)
+                if (HelpAdmin::IsUserProfessional($user)) {
+                    $professional = $user->UserHasEntity->Entity;
+                    if ($professional != null AND $professional->SpecifierSales->count() > 0)
                     {
-                        $ranking_sales[$user->id]['amount'] = 0;
-                        foreach ($professional->Sales as $key => $sale) {
-                            $ranking_sales[$user->id]['amount'] += $sale->value;
+                        $ranking_sales[$professional->id]['amount'] = 0;
+                        foreach ($professional->SpecifierSales as $key => $sale) {
+                            $ranking_sales[$professional->id]['amount'] += $sale->value;
                         }
                     } else
                     {
-                        $ranking_sales[$user->id]['amount'] = 0;
+                        $ranking_sales[$professional->id]['amount'] = 0;
                     }
-                } else
-                {
-                    $office = $user->Office;
-                    if ($office != null AND $office->Sales->count() > 0)
+                } else {
+                    $office = $user->UserHasEntity->Entity;
+                    if ($office != null AND $office->SpecifierSales->count() > 0)
                     {
-                        $ranking_sales[$user->id]['amount'] = 0;
-                        foreach ($office->Sales as $key => $sale) {
-                            $ranking_sales[$user->id]['amount'] += $sale->value;
+                        $ranking_sales[$office->id]['amount'] = 0;
+                        foreach ($office->SpecifierSales as $key => $sale) {
+                            $ranking_sales[$office->id]['amount'] += $sale->value;
                         }
                     } else
                     {
-                        $ranking_sales[$user->id]['amount'] = 0;
+                        $ranking_sales[$office->id]['amount'] = 0;
                     }
                 }
             }
@@ -150,6 +146,16 @@
                 
             } elseif ($position >= 151 AND $position <= 200) {
                 return 200;
+            } elseif ($position >= 201 AND $position <= 300) {
+                return 300;
+            } elseif ($position >= 301 AND $position <= 400) {
+                return 400;
+            } elseif ($position >= 401 AND $position <= 500) {
+                return 500;
+            } elseif ($position >= 501 AND $position <= 700) {
+                return 700;
+            } elseif ($position >= 701 AND $position <= 1000) {
+                return 1000;
             } else {
                 return 000;
             }
@@ -591,5 +597,7 @@
             return $count;
         }
 
-
+        public static function getEntity($entity_id) {
+            return Entity::find($entity_id);
+        }
     }
